@@ -18,6 +18,11 @@ jobs:
     - name: Restore nugets
       run: dotnet restore
     - name: Build project
-      run: dotnet build --no-restore
+      run: dotnet build --no-restore --configuration Release
     - name: Run tests
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal --configuration Release --logger "trx;LogFileName=test-results.trx"
+    - name: Upload tests results
+      uses: actions/upload-artifact@v3
+      with:
+        name: NUnit-Test-Results
+        path: '**/TestResults/test-results.trx'
